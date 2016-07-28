@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <properties>
+        <java.version>1.7</java.version>
+        <scala.version>2.10</scala.version>
+        <tungsten.version>5.0.1</tungsten.version>
+        <log4j.version>1.2.17</log4j.version>
+        <kafka.version>0.10.0.0</kafka.version>
+    </properties>
+
+    <groupId>ru.chermenin.tungsten</groupId>
+    <artifactId>OpenGate</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.continuent.tungsten</groupId>
+                <artifactId>tungsten-fsm</artifactId>
+                <version>${tungsten.version}</version>
+                <scope>system</scope>
+                <systemPath>${project.basedir}/lib/tungsten-fsm.jar</systemPath>
+            </dependency>
+            <dependency>
+                <groupId>com.continuent.tungsten</groupId>
+                <artifactId>tungsten-replicator</artifactId>
+                <version>${tungsten.version}</version>
+                <scope>system</scope>
+                <systemPath>${project.basedir}/lib/tungsten-replicator.jar</systemPath>
+            </dependency>
+            <dependency>
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.kafka</groupId>
+                <artifactId>kafka_${scala.version}</artifactId>
+                <version>${kafka.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <modules>
+        <module>appliers/kafka</module>
+    </modules>
+
+</project>
