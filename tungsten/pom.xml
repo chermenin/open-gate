@@ -13,7 +13,7 @@
     </properties>
 
     <groupId>ru.chermenin.tungsten</groupId>
-    <artifactId>OpenGate</artifactId>
+    <artifactId>open-gate</artifactId>
     <version>0.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
@@ -47,7 +47,8 @@
     </dependencyManagement>
 
     <modules>
-        <module>appliers/kafka</module>
+        <module>open-gate-core</module>
+        <module>appliers</module>
     </modules>
 
 </project>
