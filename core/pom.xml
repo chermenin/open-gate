@@ -11,6 +11,7 @@
         <log4j.version>1.2.17</log4j.version>
         <kafka.version>0.10.0.0</kafka.version>
         <cassandra.driver.version>3.1.0</cassandra.driver.version>
+        <flink.version>1.0.3</flink.version>
     </properties>
 
     <groupId>ru.chermenin.tungsten</groupId>
@@ -49,12 +50,23 @@
                 <artifactId>cassandra-driver-core</artifactId>
                 <version>${cassandra.driver.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.apache.flink</groupId>
+                <artifactId>flink-streaming-java_${scala.version}</artifactId>
+                <version>${flink.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.flink</groupId>
+                <artifactId>flink-connector-kafka-0.9_${scala.version}</artifactId>
+                <version>${flink.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
     <modules>
         <module>open-gate-core</module>
         <module>appliers</module>
+        <module>processing</module>
     </modules>
 
 </project>
