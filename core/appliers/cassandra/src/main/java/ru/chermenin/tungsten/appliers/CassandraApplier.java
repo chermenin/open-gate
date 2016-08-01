@@ -2,7 +2,6 @@ package ru.chermenin.tungsten.appliers;
 
 import com.continuent.tungsten.replicator.ReplicatorException;
 import com.continuent.tungsten.replicator.applier.RawApplier;
-import com.continuent.tungsten.replicator.consistency.ConsistencyException;
 import com.continuent.tungsten.replicator.event.DBMSEvent;
 import com.continuent.tungsten.replicator.event.ReplDBMSHeader;
 import com.continuent.tungsten.replicator.plugin.PluginContext;
@@ -15,7 +14,7 @@ public class CassandraApplier implements RawApplier {
     }
 
     @Override
-    public void apply(DBMSEvent dbmsEvent, ReplDBMSHeader replDBMSHeader, boolean b, boolean b1) throws ReplicatorException, ConsistencyException, InterruptedException {
+    public void apply(DBMSEvent event, ReplDBMSHeader header, boolean b, boolean b1) throws ReplicatorException, InterruptedException {
 
     }
 

@@ -10,6 +10,7 @@
         <tungsten.version>5.0.1</tungsten.version>
         <log4j.version>1.2.17</log4j.version>
         <kafka.version>0.10.0.0</kafka.version>
+        <cassandra.driver.version>3.1.0</cassandra.driver.version>
     </properties>
 
     <groupId>ru.chermenin.tungsten</groupId>
@@ -42,6 +43,11 @@
                 <groupId>org.apache.kafka</groupId>
                 <artifactId>kafka_${scala.version}</artifactId>
                 <version>${kafka.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.datastax.cassandra</groupId>
+                <artifactId>cassandra-driver-core</artifactId>
+                <version>${cassandra.driver.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

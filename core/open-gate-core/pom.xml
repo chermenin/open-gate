@@ -32,6 +32,11 @@
             <artifactId>kafka-applier</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>ru.chermenin.tungsten.appliers</groupId>
+            <artifactId>cassandra-applier</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
