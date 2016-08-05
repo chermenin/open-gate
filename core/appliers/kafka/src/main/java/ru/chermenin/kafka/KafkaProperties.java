@@ -9,4 +9,6 @@ public interface KafkaProperties {
     String BATCH_SIZE = "batch.size";
     String LINGER_MS = "linger.ms";
     String BUFFER_MEMORY = "buffer.memory";
+    String KEY_SERIALIZER = "key.serializer";
+    String VALUE_SERIALIZER = "value.serializer";
 }

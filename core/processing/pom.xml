@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ru.chermenin.tungsten.processing</groupId>
-    <artifactId>processing</artifactId>
+    <artifactId>open-gate-processing</artifactId>
 
     <dependencies>
         <dependency>

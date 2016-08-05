@@ -9,20 +9,35 @@ import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.log4j.Logger;
-import ru.chermenin.kafka.CommitMessage;
-import ru.chermenin.kafka.DataMessage;
-import ru.chermenin.kafka.KafkaMessage;
-import ru.chermenin.kafka.RollbackMessage;
+import ru.chermenin.kafka.*;
+import ru.chermenin.tungsten.serialization.KafkaSerializer;
 
 import java.util.Properties;
+
+import static ru.chermenin.kafka.KafkaProperties.*;
 
 
 public class KafkaApplier implements RawApplier {
     private static Logger logger = Logger.getLogger(KafkaApplier.class);
 
     private int taskId;
-    private ReplDBMSHeader lastHeader;
+
+    /**
+     * Kafka configuration properties.
+     */
+    private String bootstrapServers;
+    private String acks;
+    private int retries;
+    private int batchSize;
+    private int lingerMs;
+    private int bufferMemory;
+
+    /**
+     * Kafka messages producer.
+     */
     private Producer<String, KafkaMessage> producer;
+
+    private ReplDBMSHeader lastHeader;
 
     public void setTaskId(int id) {
         taskId = id;
@@ -30,6 +45,30 @@ public class KafkaApplier implements RawApplier {
 
     public int getTaskId() {
         return taskId;
+    }
+
+    public void setBootstrapServers(String bootstrapServers) {
+        this.bootstrapServers = bootstrapServers;
+    }
+
+    public void setAcks(String acks) {
+        this.acks = acks;
+    }
+
+    public void setRetries(int retries) {
+        this.retries = retries;
+    }
+
+    public void setBatchSize(int batchSize) {
+        this.batchSize = batchSize;
+    }
+
+    public void setLingerMs(int lingerMs) {
+        this.lingerMs = lingerMs;
+    }
+
+    public void setBufferMemory(int bufferMemory) {
+        this.bufferMemory = bufferMemory;
     }
 
     public void apply(DBMSEvent event, ReplDBMSHeader header, boolean b, boolean b1) throws ReplicatorException, InterruptedException {
@@ -58,14 +97,14 @@ public class KafkaApplier implements RawApplier {
 
     public void prepare(PluginContext pluginContext) throws ReplicatorException, InterruptedException {
         Properties props = new Properties();
-        props.put("bootstrap.servers", "localhost:9092");
-        props.put("acks", "all");
-        props.put("retries", 0);
-        props.put("batch.size", 16384);
-        props.put("linger.ms", 1);
-        props.put("buffer.memory", 33554432);
-        props.put("key.serializer", "ru.chermenin.tungsten.serialization.KafkaSerializer");
-        props.put("value.serializer", "ru.chermenin.tungsten.serialization.KafkaSerializer");
+        props.put(BOOTSTRAP_SERVERS, bootstrapServers);
+        props.put(ACKS, acks);
+        props.put(RETRIES, retries);
+        props.put(BATCH_SIZE, batchSize);
+        props.put(LINGER_MS, lingerMs);
+        props.put(BUFFER_MEMORY, bufferMemory);
+        props.put(KEY_SERIALIZER, KafkaSerializer.class.getCanonicalName());
+        props.put(VALUE_SERIALIZER, KafkaSerializer.class.getCanonicalName());
         producer = new KafkaProducer<>(props);
     }
 

@@ -39,7 +39,7 @@
         </dependency>
         <dependency>
             <groupId>ru.chermenin.tungsten.processing</groupId>
-            <artifactId>processing</artifactId>
+            <artifactId>open-gate-processing</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
