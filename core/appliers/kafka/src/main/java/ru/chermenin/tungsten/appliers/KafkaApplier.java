@@ -39,6 +39,7 @@ public class KafkaApplier implements RawApplier {
 
     private ReplDBMSHeader lastHeader;
 
+    @Override
     public void setTaskId(int id) {
         taskId = id;
     }
@@ -71,30 +72,36 @@ public class KafkaApplier implements RawApplier {
         this.bufferMemory = bufferMemory;
     }
 
+    @Override
     public void apply(DBMSEvent event, ReplDBMSHeader header, boolean b, boolean b1) throws ReplicatorException, InterruptedException {
         producer.send(new ProducerRecord<String, KafkaMessage>("test", header.getEventId(), new DataMessage(header, event)));
         lastHeader = header;
         logger.info("Apply event: " + header.getEventId());
     }
 
+    @Override
     public void commit() throws ReplicatorException, InterruptedException {
         producer.send(new ProducerRecord<String, KafkaMessage>("test", "commit" + System.nanoTime(), new CommitMessage()));
         logger.info("Commit event");
     }
 
+    @Override
     public void rollback() throws InterruptedException {
         producer.send(new ProducerRecord<String, KafkaMessage>("test", "rollback" + System.nanoTime(), new RollbackMessage()));
         logger.info("Rollback event");
     }
 
+    @Override
     public ReplDBMSHeader getLastEvent() throws ReplicatorException, InterruptedException {
         return lastHeader;
     }
 
+    @Override
     public void configure(PluginContext pluginContext) throws ReplicatorException, InterruptedException {
 
     }
 
+    @Override
     public void prepare(PluginContext pluginContext) throws ReplicatorException, InterruptedException {
         Properties props = new Properties();
         props.put(BOOTSTRAP_SERVERS, bootstrapServers);
@@ -108,6 +115,7 @@ public class KafkaApplier implements RawApplier {
         producer = new KafkaProducer<>(props);
     }
 
+    @Override
     public void release(PluginContext pluginContext) throws ReplicatorException, InterruptedException {
         if (producer != null) {
             producer.close();
