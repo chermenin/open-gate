@@ -15,6 +15,7 @@ import ru.chermenin.tungsten.processing.base.StreamProcessor;
 import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
+import java.util.function.Supplier;
 
 public abstract class KafkaStreamProcessor extends StreamProcessor<KafkaMessage> {
 
@@ -49,28 +50,22 @@ public abstract class KafkaStreamProcessor extends StreamProcessor<KafkaMessage>
 
     @Override
     protected MapFunction<KafkaMessage, KafkaMessage> getMap() {
-        return new MapFunction<KafkaMessage, KafkaMessage>() {
-
-            @Override
-            public KafkaMessage map(KafkaMessage message) throws Exception {
-                return applyMessage(message, getMapAppliers());
-            }
-        };
+        return message -> applyMessage(message, this::getMapAppliers);
     }
 
     @Override
     protected SinkFunction<KafkaMessage> getSink() {
-        return new SinkFunction<KafkaMessage>() {
-
-            @Override
-            public void invoke(KafkaMessage message) throws Exception {
-                applyMessage(message, getSinkAppliers());
-            }
-        };
+        return message -> applyMessage(message, this::getSinkAppliers);
     }
 
-    private KafkaMessage applyMessage(KafkaMessage message, List<RawApplier> appliers) throws ReplicatorException, InterruptedException {
-        if (appliers == null) return message;
+    private KafkaMessage applyMessage(KafkaMessage message, Supplier<List<RawApplier>> supplier) throws ReplicatorException, InterruptedException {
+        List<RawApplier> appliers = null;
+        if (supplier != null) {
+            appliers = supplier.get();
+        }
+        if (appliers == null) {
+            return message;
+        }
 
         if (message instanceof DataMessage) {
             DataMessage dataMessage = (DataMessage) message;

@@ -74,20 +74,20 @@ public class KafkaApplier implements RawApplier {
 
     @Override
     public void apply(DBMSEvent event, ReplDBMSHeader header, boolean b, boolean b1) throws ReplicatorException, InterruptedException {
-        producer.send(new ProducerRecord<String, KafkaMessage>("test", header.getEventId(), new DataMessage(header, event)));
+        producer.send(new ProducerRecord<>("test", header.getEventId(), new DataMessage(header, event)));
         lastHeader = header;
         logger.info("Apply event: " + header.getEventId());
     }
 
     @Override
     public void commit() throws ReplicatorException, InterruptedException {
-        producer.send(new ProducerRecord<String, KafkaMessage>("test", "commit" + System.nanoTime(), new CommitMessage()));
+        producer.send(new ProducerRecord<>("test", "commit" + System.nanoTime(), new CommitMessage()));
         logger.info("Commit event");
     }
 
     @Override
     public void rollback() throws InterruptedException {
-        producer.send(new ProducerRecord<String, KafkaMessage>("test", "rollback" + System.nanoTime(), new RollbackMessage()));
+        producer.send(new ProducerRecord<>("test", "rollback" + System.nanoTime(), new RollbackMessage()));
         logger.info("Rollback event");
     }
 
